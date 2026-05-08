@@ -1,7 +1,14 @@
 #ifndef QUAD_NC_CLOSED_H
 #define QUAD_NC_CLOSED_H
 
-void quad_nc_closed_weights(int n, double *w);
-double quad_nc_closed(double (*f)(double), double a, double b, int n);
+typedef enum {
+    QUAD_CLOSED_METHOD_TRAPEZOIDAL = 1,
+    QUAD_CLOSED_METHOD_SIMPSON = 2,
+    QUAD_CLOSED_METHOD_SIMPSON_3_8 = 3,
+    QUAD_CLOSED_METHOD_BOOLE = 4,
+} QuadNCClosedMethod;
+
+void quad_nc_closed_method_weights(QuadNCClosedMethod n, double *w);
+double quad_nc_closed(double (*f)(double), QuadNCClosedMethod n, double a, double b);
 
 #endif /* QUAD_NC_CLOSED_H */

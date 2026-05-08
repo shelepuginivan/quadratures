@@ -1,23 +1,23 @@
 #include "nc_closed.h"
 
-void quad_nc_closed_weights(int n, double *w) {
+void quad_nc_closed_method_weights(QuadNCClosedMethod n, double *w) {
     switch (n) {
-    case 1:
+    case QUAD_CLOSED_METHOD_TRAPEZOIDAL:
         w[0] = 1.0 / 2.0;
         w[1] = 1.0 / 2.0;
         break;
-    case 2:
+    case QUAD_CLOSED_METHOD_SIMPSON:
         w[0] = 1.0 / 6.0;
         w[1] = 4.0 / 6.0;
         w[2] = 1.0 / 6.0;
         break;
-    case 3:
+    case QUAD_CLOSED_METHOD_SIMPSON_3_8:
         w[0] = 1.0 / 8.0;
         w[1] = 3.0 / 8.0;
         w[2] = 3.0 / 8.0;
         w[3] = 1.0 / 8.0;
         break;
-    case 4:
+    case QUAD_CLOSED_METHOD_BOOLE:
         w[0] = 7.0 / 90.0;
         w[1] = 32.0 / 90.0;
         w[2] = 12.0 / 90.0;
@@ -27,13 +27,13 @@ void quad_nc_closed_weights(int n, double *w) {
     }
 }
 
-double quad_nc_closed(double (*f)(double), double a, double b, int n) {
+double quad_nc_closed(double (*f)(double), QuadNCClosedMethod n, double a, double b) {
     double w[n + 1];
     double h = (b - a) / n;
     double sum = 0.0;
     double xi = a;
 
-    quad_nc_closed_weights(n, w);
+    quad_nc_closed_method_weights(n, w);
 
     for (int i = 0; i <= n; i++) {
         sum += w[i] * f(xi);
