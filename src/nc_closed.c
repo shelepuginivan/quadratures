@@ -24,6 +24,23 @@ void quad_nc_closed_method_weights(QuadNCClosedMethod n, double *w) {
         w[3] = 32.0 / 90.0;
         w[4] = 7.0 / 90.0;
         break;
+    case QUAD_NC_CLOSED_METHOD_N_5:
+        w[0] = 19.0 / 288.0;
+        w[1] = 75.0 / 288.0;
+        w[2] = 50.0 / 288.0;
+        w[3] = 50.0 / 288.0;
+        w[4] = 75.0 / 288.0;
+        w[5] = 19.0 / 288.0;
+        break;
+    case QUAD_NC_CLOSED_METHOD_WEDDLE:
+        w[0] = 41.0 / 840.0;
+        w[1] = 216.0 / 840.0;
+        w[2] = 27.0 / 840.0;
+        w[3] = 272.0 / 840.0;
+        w[4] = 27.0 / 840.0;
+        w[5] = 216.0 / 840.0;
+        w[6] = 41.0 / 840.0;
+        break;
     default:
         for (int i = 0; i < QUAD_NC_CLOSED_METHOD_ENTRY_NUMBER; i++) {
             w[i] = 0.0;
