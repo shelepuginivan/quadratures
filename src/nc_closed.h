@@ -10,5 +10,7 @@ typedef enum {
 
 void quad_nc_closed_method_weights(QuadNCClosedMethod n, double *w);
 double quad_nc_closed(double (*f)(double), QuadNCClosedMethod n, double a, double b);
+double quad_nc_closed_composite(double (*f)(double), QuadNCClosedMethod n, double a, double b,
+                                int m);
 
 #endif /* QUAD_NC_CLOSED_H */

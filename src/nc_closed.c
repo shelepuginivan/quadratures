@@ -42,3 +42,18 @@ double quad_nc_closed(double (*f)(double), QuadNCClosedMethod n, double a, doubl
 
     return (b - a) * sum;
 }
+
+double quad_nc_closed_composite(double (*f)(double), QuadNCClosedMethod n, double a, double b,
+                                int m) {
+    double h = (b - a) / m;
+    double sum = 0.0;
+    double left = a;
+
+    for (int i = 0; i < m; i++) {
+        double right = left + h;
+        sum += quad_nc_closed(f, n, left, right);
+        left = right;
+    }
+
+    return sum;
+}
