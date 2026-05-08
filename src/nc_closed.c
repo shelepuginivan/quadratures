@@ -24,20 +24,23 @@ void quad_nc_closed_method_weights(QuadNCClosedMethod n, double *w) {
         w[3] = 32.0 / 90.0;
         w[4] = 7.0 / 90.0;
         break;
+    default:
+        for (int i = 0; i < QUAD_CLOSED_METHOD_ENTRY_NUMBER; i++) {
+            w[i] = 0.0;
+        }
+        break;
     }
 }
 
 double quad_nc_closed(double (*f)(double), QuadNCClosedMethod n, double a, double b) {
-    double w[n + 1];
+    double w[QUAD_CLOSED_METHOD_ENTRY_NUMBER];
     double h = (b - a) / n;
     double sum = 0.0;
-    double xi = a;
 
     quad_nc_closed_method_weights(n, w);
 
     for (int i = 0; i <= n; i++) {
-        sum += w[i] * f(xi);
-        xi += h;
+        sum += w[i] * f(a + i * h);
     }
 
     return (b - a) * sum;
@@ -47,12 +50,11 @@ double quad_nc_closed_composite(double (*f)(double), QuadNCClosedMethod n, doubl
                                 int m) {
     double h = (b - a) / m;
     double sum = 0.0;
-    double left = a;
 
     for (int i = 0; i < m; i++) {
+        double left = a + (i * h);
         double right = left + h;
         sum += quad_nc_closed(f, n, left, right);
-        left = right;
     }
 
     return sum;

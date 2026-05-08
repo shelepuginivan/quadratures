@@ -6,6 +6,8 @@ typedef enum {
     QUAD_CLOSED_METHOD_SIMPSON = 2,
     QUAD_CLOSED_METHOD_SIMPSON_3_8 = 3,
     QUAD_CLOSED_METHOD_BOOLE = 4,
+
+    QUAD_CLOSED_METHOD_ENTRY_NUMBER,
 } QuadNCClosedMethod;
 
 void quad_nc_closed_method_weights(QuadNCClosedMethod n, double *w);
