@@ -2,22 +2,22 @@
 
 void quad_nc_closed_method_weights(QuadNCClosedMethod n, double *w) {
     switch (n) {
-    case QUAD_CLOSED_METHOD_TRAPEZOIDAL:
+    case QUAD_NC_CLOSED_METHOD_TRAPEZOIDAL:
         w[0] = 1.0 / 2.0;
         w[1] = 1.0 / 2.0;
         break;
-    case QUAD_CLOSED_METHOD_SIMPSON:
+    case QUAD_NC_CLOSED_METHOD_SIMPSON:
         w[0] = 1.0 / 6.0;
         w[1] = 4.0 / 6.0;
         w[2] = 1.0 / 6.0;
         break;
-    case QUAD_CLOSED_METHOD_SIMPSON_3_8:
+    case QUAD_NC_CLOSED_METHOD_SIMPSON_3_8:
         w[0] = 1.0 / 8.0;
         w[1] = 3.0 / 8.0;
         w[2] = 3.0 / 8.0;
         w[3] = 1.0 / 8.0;
         break;
-    case QUAD_CLOSED_METHOD_BOOLE:
+    case QUAD_NC_CLOSED_METHOD_BOOLE:
         w[0] = 7.0 / 90.0;
         w[1] = 32.0 / 90.0;
         w[2] = 12.0 / 90.0;
@@ -25,7 +25,7 @@ void quad_nc_closed_method_weights(QuadNCClosedMethod n, double *w) {
         w[4] = 7.0 / 90.0;
         break;
     default:
-        for (int i = 0; i < QUAD_CLOSED_METHOD_ENTRY_NUMBER; i++) {
+        for (int i = 0; i < QUAD_NC_CLOSED_METHOD_ENTRY_NUMBER; i++) {
             w[i] = 0.0;
         }
         break;
@@ -33,7 +33,7 @@ void quad_nc_closed_method_weights(QuadNCClosedMethod n, double *w) {
 }
 
 double quad_nc_closed(double (*f)(double), QuadNCClosedMethod n, double a, double b) {
-    double w[QUAD_CLOSED_METHOD_ENTRY_NUMBER];
+    double w[QUAD_NC_CLOSED_METHOD_ENTRY_NUMBER];
     double h = (b - a) / n;
     double sum = 0.0;
 
