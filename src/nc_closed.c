@@ -26,3 +26,19 @@ void quad_nc_closed_weights(int n, double *w) {
         break;
     }
 }
+
+double quad_nc_closed(double (*f)(double), double a, double b, int n) {
+    double w[n + 1];
+    double h = (b - a) / n;
+    double sum = 0.0;
+    double xi = a;
+
+    quad_nc_closed_weights(n, w);
+
+    for (int i = 0; i <= n; i++) {
+        sum += w[i] * f(xi);
+        xi += h;
+    }
+
+    return (b - a) * sum;
+}
