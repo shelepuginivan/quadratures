@@ -2,15 +2,12 @@
 #define QUAD_NC_OPEN_H
 
 typedef enum {
-    QUAD_NC_OPEN_METHOD_RECTANGULAR = 0,
-    QUAD_NC_OPEN_METHOD_N_1 = 1,
-    QUAD_NC_OPEN_METHOD_MILNE = 2,
-    QUAD_NC_OPEN_METHOD_N_3 = 3,
-
-    QUAD_NC_OPEN_METHOD_ENTRY_NUMBER,
+    QUAD_NC_OPEN_METHOD_RECTANGULAR,
+    QUAD_NC_OPEN_METHOD_N_1,
+    QUAD_NC_OPEN_METHOD_MILNE,
+    QUAD_NC_OPEN_METHOD_N_3,
 } QuadNCOpenMethod;
 
-void quad_nc_open_method_weights(QuadNCOpenMethod n, double *w);
 double quad_nc_open(double (*f)(double), QuadNCOpenMethod n, double a, double b);
 double quad_nc_open_composite(double (*f)(double), QuadNCOpenMethod n, double a, double b, int m);
 

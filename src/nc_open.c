@@ -1,42 +1,13 @@
 #include "nc_open.h"
-
-void quad_nc_open_method_weights(QuadNCOpenMethod n, double *w) {
-    switch (n) {
-    case QUAD_NC_OPEN_METHOD_RECTANGULAR:
-        w[0] = 1.0;
-        break;
-    case QUAD_NC_OPEN_METHOD_N_1:
-        w[0] = 1.0 / 2.0;
-        w[1] = 1.0 / 2.0;
-        break;
-    case QUAD_NC_OPEN_METHOD_MILNE:
-        w[0] = 2.0 / 3.0;
-        w[1] = -1.0 / 3.0;
-        w[2] = 2.0 / 3.0;
-        break;
-    case QUAD_NC_OPEN_METHOD_N_3:
-        w[0] = 11.0 / 24.0;
-        w[1] = 1.0 / 24.0;
-        w[2] = 1.0 / 24.0;
-        w[3] = 11.0 / 24.0;
-        break;
-    default:
-        for (int i = 0; i < QUAD_NC_OPEN_METHOD_ENTRY_NUMBER; i++) {
-            w[i] = 0.0;
-        }
-        break;
-    }
-}
+#include "tbl_double.h"
 
 double quad_nc_open(double (*f)(double), QuadNCOpenMethod n, double a, double b) {
-    double w[QUAD_NC_OPEN_METHOD_ENTRY_NUMBER];
     double h = (b - a) / (n + 2);
     double sum = 0.0;
-
-    quad_nc_open_method_weights(n, w);
+    int tbl_s = QUAD_TBL_OFFSET_NC_OPEN(n);
 
     for (int i = 0; i <= n; i++) {
-        sum += w[i] * f(a + (i + 1) * h);
+        sum += quad_newton_cotes_open[tbl_s + i] * f(a + (i + 1) * h);
     }
 
     return (b - a) * sum;
