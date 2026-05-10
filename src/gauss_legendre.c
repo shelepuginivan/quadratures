@@ -1,5 +1,5 @@
-#include "gl.h"
-#include "tbl_double.h"
+#include "gauss_legendre.h"
+#include "gauss_legendre_tbl.h"
 
 double quad_gl(double (*f)(double), int n, double a, double b) {
     double sum = 0.0;
