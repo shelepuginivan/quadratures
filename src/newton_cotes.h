@@ -12,7 +12,7 @@ typedef enum {
 
 double quad_nc_closed(double (*f)(double), QuadNCClosedMethod n, double a, double b);
 double quad_nc_closed_composite(double (*f)(double), QuadNCClosedMethod n, double a, double b,
-                                int m);
+                                unsigned long m);
 
 typedef enum {
     QUAD_NC_OPEN_METHOD_RECTANGULAR,
@@ -22,6 +22,7 @@ typedef enum {
 } QuadNCOpenMethod;
 
 double quad_nc_open(double (*f)(double), QuadNCOpenMethod n, double a, double b);
-double quad_nc_open_composite(double (*f)(double), QuadNCOpenMethod n, double a, double b, int m);
+double quad_nc_open_composite(double (*f)(double), QuadNCOpenMethod n, double a, double b,
+                              unsigned long m);
 
 #endif /* QUAD_NEWTON_COTES_H */

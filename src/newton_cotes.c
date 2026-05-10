@@ -14,11 +14,11 @@ double quad_nc_closed(double (*f)(double), QuadNCClosedMethod n, double a, doubl
 }
 
 double quad_nc_closed_composite(double (*f)(double), QuadNCClosedMethod n, double a, double b,
-                                int m) {
+                                unsigned long m) {
     double h = (b - a) / m;
     double sum = 0.0;
 
-    for (int i = 0; i < m; i++) {
+    for (unsigned long i = 0; i < m; i++) {
         double left = a + (i * h);
         double right = left + h;
         sum += quad_nc_closed(f, n, left, right);
@@ -39,11 +39,12 @@ double quad_nc_open(double (*f)(double), QuadNCOpenMethod n, double a, double b)
     return (b - a) * sum;
 }
 
-double quad_nc_open_composite(double (*f)(double), QuadNCOpenMethod n, double a, double b, int m) {
+double quad_nc_open_composite(double (*f)(double), QuadNCOpenMethod n, double a, double b,
+                              unsigned long m) {
     double h = (b - a) / m;
     double sum = 0.0;
 
-    for (int i = 0; i < m; i++) {
+    for (unsigned long i = 0; i < m; i++) {
         double left = a + (i * h);
         double right = left + h;
         sum += quad_nc_open(f, n, left, right);
