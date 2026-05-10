@@ -19,3 +19,16 @@ double quad_gl(double (*f)(double), int n, double a, double b) {
 
     return h_b_minus_a * sum;
 }
+
+double quad_gl_composite(double (*f)(double), int n, double a, double b, unsigned long m) {
+    double sum = 0.0;
+    double h = (b - a) / m;
+
+    for (unsigned long i = 0; i < m; i++) {
+        double left = a + i * h;
+        double right = left + h;
+        sum += quad_gl(f, n, left, right);
+    }
+
+    return sum;
+}
