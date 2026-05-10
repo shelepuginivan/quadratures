@@ -1,18 +1,15 @@
-#include <math.h>
+#include <float.h>
 #include <stdio.h>
 
-#include "newton_cotes.h"
-
-double singular_func(double x) {
-    return sin(x) / sqrt(x);
-}
+#include "runner.h"
 
 int main() {
-    double a = 0.0, b = 1.0;
+    QuadRunner r;
+    quad_runner_load_defaults(&r);
+    quad_runner_load_from_env(&r);
 
-    double res = quad_nc_open_composite(singular_func, QUAD_NC_OPEN_METHOD_N_3, a, b, 20000000);
-
-    printf("%.21f\n", res);
+    double res = quad_runner_run(&r);
+    printf("%.*g\n", DBL_DECIMAL_DIG, res);
 
     return 0;
 }
