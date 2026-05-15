@@ -1,6 +1,8 @@
 #ifndef QUAD_NEWTON_COTES_TBL_H
 #define QUAD_NEWTON_COTES_TBL_H
 
+#define QUAD_TBL_CHECK_NC_CLOSED(n) ((n) >= 1 && (n) <= 6)
+#define QUAD_TBL_CHECK_NC_OPEN(n) ((n) >= 0 && (n) <= 3)
 #define QUAD_TBL_OFFSET_NC_CLOSED(n) ((n) * ((n) + 1) / 2 - 1)
 #define QUAD_TBL_OFFSET_NC_OPEN(n) ((n) * ((n) + 1) / 2)
 

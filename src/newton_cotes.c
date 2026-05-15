@@ -1,7 +1,13 @@
+#include <math.h>
+
 #include "newton_cotes.h"
 #include "newton_cotes_tbl.h"
 
 double quad_nc_closed(double (*f)(double), QuadNCClosedMethod n, double a, double b) {
+    if (!QUAD_TBL_CHECK_NC_CLOSED(n)) {
+        return NAN;
+    }
+
     double h = (b - a) / n;
     double sum = 0.0;
     int tbl_s = QUAD_TBL_OFFSET_NC_CLOSED(n);
@@ -15,6 +21,10 @@ double quad_nc_closed(double (*f)(double), QuadNCClosedMethod n, double a, doubl
 
 double quad_nc_closed_composite(double (*f)(double), QuadNCClosedMethod n, double a, double b,
                                 unsigned long m) {
+    if (!QUAD_TBL_CHECK_NC_CLOSED(n)) {
+        return NAN;
+    }
+
     double h = (b - a) / m;
     double sum = 0.0;
 
@@ -28,6 +38,10 @@ double quad_nc_closed_composite(double (*f)(double), QuadNCClosedMethod n, doubl
 }
 
 double quad_nc_open(double (*f)(double), QuadNCOpenMethod n, double a, double b) {
+    if (!QUAD_TBL_CHECK_NC_OPEN(n)) {
+        return NAN;
+    }
+
     double h = (b - a) / (n + 2);
     double sum = 0.0;
     int tbl_s = QUAD_TBL_OFFSET_NC_OPEN(n);
@@ -41,6 +55,10 @@ double quad_nc_open(double (*f)(double), QuadNCOpenMethod n, double a, double b)
 
 double quad_nc_open_composite(double (*f)(double), QuadNCOpenMethod n, double a, double b,
                               unsigned long m) {
+    if (!QUAD_TBL_CHECK_NC_OPEN(n)) {
+        return NAN;
+    }
+
     double h = (b - a) / m;
     double sum = 0.0;
 

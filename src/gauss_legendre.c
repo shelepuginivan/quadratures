@@ -1,7 +1,13 @@
+#include <math.h>
+
 #include "gauss_legendre.h"
 #include "gauss_legendre_tbl.h"
 
 double quad_gl(double (*f)(double), int n, double a, double b) {
+    if (!QUAD_TBL_CHECK_LEGENDRE(n)) {
+        return NAN;
+    }
+
     double sum = 0.0;
     double h_a_plus_b = (a + b) / 2;
     double h_b_minus_a = (b - a) / 2;
@@ -21,6 +27,10 @@ double quad_gl(double (*f)(double), int n, double a, double b) {
 }
 
 double quad_gl_composite(double (*f)(double), int n, double a, double b, unsigned long m) {
+    if (!QUAD_TBL_CHECK_LEGENDRE(n)) {
+        return NAN;
+    }
+
     double sum = 0.0;
     double h = (b - a) / m;
 

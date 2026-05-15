@@ -1,6 +1,7 @@
 #ifndef QUAD_GAUSS_LEGENDRE_TBL_H
 #define QUAD_GAUSS_LEGENDRE_TBL_H
 
+#define QUAD_TBL_CHECK_LEGENDRE(n) ((n) >= 2 && (n) <= 6)
 #define QUAD_TBL_OFFSET_LEGENDRE(n) (((n) - 2) * ((n) + 1))
 
 // clang-format off
