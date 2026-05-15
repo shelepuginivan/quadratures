@@ -14,20 +14,20 @@ void env_load_f_(const char *name, double (**dst)(double x));
 
 void quad_runner_load_defaults(QuadRunner *r) {
     r->method = QUAD_RUNNER_METHOD_NEWTON_COTES_CLOSED;
-    r->f = quad_fn_sin_x_over_sqrt_x;
+    r->f = quad_fn_sqr;
     r->n = 2;
     r->composite = 1;
     r->a = 0.0;
     r->b = 1.0;
 }
 
-void quad_runner_load_from_env(QuadRunner *cfg) {
-    env_load_ulong_("QUAD_N", &cfg->n);
-    env_load_ulong_("QUAD_COMPOSITE", &cfg->composite);
-    env_load_double_("QUAD_A", &cfg->a);
-    env_load_double_("QUAD_B", &cfg->b);
-    env_load_method_("QUAD_METHOD", &cfg->method);
-    env_load_f_("QUAD_FN", &cfg->f);
+void quad_runner_load_from_env(QuadRunner *r) {
+    env_load_ulong_("QUAD_N", &r->n);
+    env_load_ulong_("QUAD_COMPOSITE", &r->composite);
+    env_load_double_("QUAD_A", &r->a);
+    env_load_double_("QUAD_B", &r->b);
+    env_load_method_("QUAD_METHOD", &r->method);
+    env_load_f_("QUAD_FN", &r->f);
 }
 
 double quad_runner_run(QuadRunner *r) {
@@ -46,6 +46,21 @@ double quad_runner_run(QuadRunner *r) {
 void env_load_double_(const char *name, double *dst) {
     char *envvar = getenv(name);
     if (envvar == NULL) {
+        return;
+    }
+
+    if (strcmp(envvar, "pi") == 0) {
+        *dst = M_PI;
+        return;
+    }
+
+    if (strcmp(envvar, "pi/2") == 0) {
+        *dst = M_PI_2;
+        return;
+    }
+
+    if (strcmp(envvar, "e") == 0) {
+        *dst = M_E;
         return;
     }
 
@@ -101,7 +116,31 @@ void env_load_f_(const char *name, double (**dst)(double x)) {
         return;
     }
 
-    if (strcmp(v, "sin(x)/sqrt(x)") == 0) {
+    if (strcmp(v, "sin") == 0) {
+        *dst = sin;
+    }
+
+    if (strcmp(v, "tan") == 0) {
+        *dst = tan;
+    }
+
+    if (strcmp(v, "sqrt") == 0) {
+        *dst = sqrt;
+    }
+
+    if (strcmp(v, "sin/sqrt") == 0) {
         *dst = quad_fn_sin_x_over_sqrt_x;
+    }
+
+    if (strcmp(v, "x^2") == 0) {
+        *dst = quad_fn_sqr;
+    }
+
+    if (strcmp(v, "x^3") == 0) {
+        *dst = quad_fn_cub;
+    }
+
+    if (strcmp(v, "x^4") == 0) {
+        *dst = quad_fn_x4;
     }
 }
