@@ -9,9 +9,9 @@ SRCS = $(wildcard $(SRC_DIR)/*.c)
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRCS))
 TARGET = build/quadratures
 
-.PHONY: all clean clean-output
+.PHONY: all clean generate
 
-all: $(TARGET)
+all: generate $(TARGET)
 
 $(TARGET): $(OBJS)
 	$(CC) $(OBJS) -o $@ $(LDFLAGS)
@@ -21,6 +21,9 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
+
+generate:
+	uv run generate.py
 
 clean:
 	rm -rf $(BUILD_DIR)/*.o $(TARGET)
