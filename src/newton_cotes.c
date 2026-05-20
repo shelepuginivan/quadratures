@@ -2,21 +2,27 @@
 
 #include "newton_cotes.h"
 #include "newton_cotes_tbl.h"
+#include "utils.h"
 
 double quad_nc_closed(double (*f)(double), QuadNCClosedMethod n, double a, double b) {
     if (!QUAD_TBL_CHECK_NC_CLOSED(n)) {
         return NAN;
     }
 
-    double h = (b - a) / n;
     double sum = 0.0;
+    double c = 0.0;
+    double b_minus_a = b - a;
+    double h = b_minus_a / n;
+    double denom = (double)quad_newton_cotes_closed_denom[n];
     int tbl_s = QUAD_TBL_OFFSET_NC_CLOSED(n);
 
-    for (int i = 0; i <= n; i++) {
-        sum += quad_newton_cotes_closed[tbl_s + i] * f(a + i * h);
+    for (int i = 0; i <= (int)n; i++) {
+        double xi = fma((double)i, h, a);
+        double t = f(xi) * quad_newton_cotes_closed_coef[tbl_s + i] / denom;
+        quad_kahan_sum(&sum, &c, t);
     }
 
-    return (b - a) * sum;
+    return fma(b_minus_a, sum, b_minus_a * c);
 }
 
 double quad_nc_closed_composite(double (*f)(double), QuadNCClosedMethod n, double a, double b,
@@ -27,14 +33,16 @@ double quad_nc_closed_composite(double (*f)(double), QuadNCClosedMethod n, doubl
 
     double h = (b - a) / m;
     double sum = 0.0;
+    double c = 0.0;
 
     for (unsigned long i = 0; i < m; i++) {
-        double left = a + (i * h);
+        double left = fma((double)i, h, a);
         double right = left + h;
-        sum += quad_nc_closed(f, n, left, right);
+        double sub = quad_nc_closed(f, n, left, right);
+        quad_kahan_sum(&sum, &c, sub);
     }
 
-    return sum;
+    return sum + c;
 }
 
 double quad_nc_open(double (*f)(double), QuadNCOpenMethod n, double a, double b) {
@@ -42,15 +50,20 @@ double quad_nc_open(double (*f)(double), QuadNCOpenMethod n, double a, double b)
         return NAN;
     }
 
-    double h = (b - a) / (n + 2);
     double sum = 0.0;
+    double c = 0.0;
+    double b_minus_a = b - a;
+    double h = b_minus_a / (n + 1);
+    double denom = (double)quad_newton_cotes_open_denom[n];
     int tbl_s = QUAD_TBL_OFFSET_NC_OPEN(n);
 
-    for (int i = 0; i <= n; i++) {
-        sum += quad_newton_cotes_open[tbl_s + i] * f(a + (i + 1) * h);
+    for (int i = 0; i < (int)n; i++) {
+        double xi = fma((double)(i + 1), h, a);
+        double t = f(xi) * quad_newton_cotes_open_coef[tbl_s + i] / denom;
+        quad_kahan_sum(&sum, &c, t);
     }
 
-    return (b - a) * sum;
+    return fma(b_minus_a, sum, b_minus_a * c);
 }
 
 double quad_nc_open_composite(double (*f)(double), QuadNCOpenMethod n, double a, double b,
@@ -61,12 +74,14 @@ double quad_nc_open_composite(double (*f)(double), QuadNCOpenMethod n, double a,
 
     double h = (b - a) / m;
     double sum = 0.0;
+    double c = 0.0;
 
     for (unsigned long i = 0; i < m; i++) {
-        double left = a + (i * h);
+        double left = fma((double)i, h, a);
         double right = left + h;
-        sum += quad_nc_open(f, n, left, right);
+        double sub = quad_nc_open(f, n, left, right);
+        quad_kahan_sum(&sum, &c, sub);
     }
 
-    return sum;
+    return sum + c;
 }

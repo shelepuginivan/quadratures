@@ -15,10 +15,10 @@ double quad_nc_closed_composite(double (*f)(double), QuadNCClosedMethod n, doubl
                                 unsigned long m);
 
 typedef enum {
-    QUAD_NC_OPEN_METHOD_RECTANGULAR,
-    QUAD_NC_OPEN_METHOD_N_1,
+    QUAD_NC_OPEN_METHOD_RECTANGULAR = 1,
+    QUAD_NC_OPEN_METHOD_N_2,
     QUAD_NC_OPEN_METHOD_MILNE,
-    QUAD_NC_OPEN_METHOD_N_3,
+    QUAD_NC_OPEN_METHOD_N_4,
 } QuadNCOpenMethod;
 
 double quad_nc_open(double (*f)(double), QuadNCOpenMethod n, double a, double b);
