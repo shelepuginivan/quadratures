@@ -40,12 +40,12 @@ Runner is configured via environment variables.
 - `QUAD_METHOD=nc_open`, [open Newton-Cotes rules](https://en.wikipedia.org/wiki/Newton%E2%80%93Cotes_formulas#Open_Newton%E2%80%93Cotes_formulas):
   |  N  | Formula                |
   | --- | ---------------------- |
-  | `0` | Rectangle, or midpoint |
-  | `1` | -                      |
-  | `2` | Milne                  |
-  | `3` | -                      |
+  | `1` | Rectangle, or midpoint |
+  | `2` | -                      |
+  | `3` | Milne                  |
+  | `4` | -                      |
 
-- `QUAD_METHOD=gl`, [Gauss-Legendre rules](https://en.wikipedia.org/wiki/Gauss%E2%80%93Legendre_quadrature): 2, 3, 4, 5, 6.
+- `QUAD_METHOD=gl`, [Gauss-Legendre rules](https://en.wikipedia.org/wiki/Gauss%E2%80%93Legendre_quadrature): 2, ..., 100.
 
 `QUAD_FN` defines a function to integrate. The following functions are supported:
 | Value      | Function                   |
