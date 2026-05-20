@@ -2,6 +2,7 @@
 
 #include "gauss_legendre.h"
 #include "gauss_legendre_tbl.h"
+#include "utils.h"
 
 double quad_gl(double (*f)(double), int n, double a, double b) {
     if (!QUAD_TBL_CHECK_LEGENDRE(n)) {
@@ -9,6 +10,7 @@ double quad_gl(double (*f)(double), int n, double a, double b) {
     }
 
     double sum = 0.0;
+    double c = 0.0;
     double h_a_plus_b = (a + b) / 2;
     double h_b_minus_a = (b - a) / 2;
 
@@ -18,12 +20,13 @@ double quad_gl(double (*f)(double), int n, double a, double b) {
     for (int i = tbl_s; i < tbl_e; i += 2) {
         double wi = quad_roots_legendre[i];
         double xi = quad_roots_legendre[i + 1];
-        double xi_norm = h_a_plus_b + h_b_minus_a * xi;
+        double xi_norm = fma(xi, h_b_minus_a, h_a_plus_b);
 
-        sum += wi * f(xi_norm);
+        double term = wi * f(xi_norm);
+        quad_kahan_sum(&sum, &c, term);
     }
 
-    return h_b_minus_a * sum;
+    return fma(h_b_minus_a, sum, h_b_minus_a * c);
 }
 
 double quad_gl_composite(double (*f)(double), int n, double a, double b, unsigned long m) {
@@ -32,13 +35,15 @@ double quad_gl_composite(double (*f)(double), int n, double a, double b, unsigne
     }
 
     double sum = 0.0;
+    double c = 0.0;
     double h = (b - a) / m;
 
     for (unsigned long i = 0; i < m; i++) {
-        double left = a + i * h;
+        double left = fma(h, i, a);
         double right = left + h;
-        sum += quad_gl(f, n, left, right);
+        double sub = quad_gl(f, n, left, right);
+        quad_kahan_sum(&sum, &c, sub);
     }
 
-    return sum;
+    return sum + c;
 }

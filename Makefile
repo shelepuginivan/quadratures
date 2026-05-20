@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -std=gnu11 -I./src
+CFLAGS = -Wall -Wextra -std=gnu11 -fno-fast-math -I./src
 LDFLAGS = -lm
 
 SRC_DIR = src
